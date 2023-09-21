@@ -1,0 +1,50 @@
+.container {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+.containerH4 {
+  font-family: 'Nunito Sans', sans-serif;
+  font-family: 'Poiret One', cursive;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 12px;
+  color: #c00;
+  padding: 10px 0;
+  text-transform: uppercase;
+}
+
+.HeaderContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.HeaderContainer h4 {
+  font-family: 'Nunito Sans', sans-serif;
+  font-family: 'Poiret One', cursive;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 12px;
+  color: #c00;
+}
+
+.containerH2 {
+  font-family: 'Nunito Sans', sans-serif;
+  font-family: 'Poiret One', cursive;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 15px;
+  /* color: #262626; */
+  margin-bottom: 15px;
+}
+
+.containerH2 a {
+  text-decoration: none;
+  color: #5c5c5c;
+}
+
+.containerH2 a:hover {
+  color: #c00;
+}
