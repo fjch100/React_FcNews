@@ -1,56 +1,57 @@
 import { useQuery } from '@tanstack/react-query';
 import { getCollection } from '../utils/http';
-// import News from '../components/News';
 import { Vortex } from 'react-loader-spinner';
 import NewXL from '../components/news/NewXL';
 import NewMd1 from '../components/news/NewMd1';
 import NewSmall1 from '../components/news/NewSmall1';
 import NewXL2 from '../components/news/NewXL2';
 import classes from '../css/Pages.module.css';
-import Carousel from 'nuka-carousel';
+import Carrusel from '../components/carrusel/Carrusel';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Headlines = () => {
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['articles', 'Headlines'],
     queryFn: () => getCollection('Headlines', 'headlineNewsId')
   });
   const cat = 'Headlines';
 
-  // console.log('articles', data);
+  const carruselImages = data?.slice(18, 21).map((item) => {
+    return {
+      image: item.urlToImage,
+      title: item.title,
+      url: item.url
+    };
+  });
+
+  // console.log('carruselImages', carruselImages);
 
   return (
     <>
-      {isLoading && (
-        <div className="newsSpinner">
-          <Vortex
-            visible={true}
-            height="150"
-            width="150"
-            ariaLabel="vortex-loading"
-            wrapperStyle={{}}
-            wrapperClass="vortex-wrapper"
-            colors={['red', 'green', 'blue', 'yellow', 'orange', 'purple']}
-          />
-        </div>
-      )}
+      <AnimatePresence wait>
+        {isLoading && (
+          <motion.div
+            className="newsSpinner"
+            initial={{ y: -400, opacity: 0 }}
+            animate={{ y: [400, 0], opacity: 1 }}
+            exit={{ y: -400, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Vortex
+              visible={true}
+              height="150"
+              width="150"
+              ariaLabel="vortex-loading"
+              wrapperStyle={{}}
+              wrapperClass="vortex-wrapper"
+              colors={['red', 'green', 'blue', 'yellow', 'orange', 'purple']}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
       {data && !isLoading && (
-        // data.map((item) => (
-        //   <News
-        //     key={item.publishedAt + item.title + item.author}
-        //     title={item.title}
-        //     author={item.author}
-        //     content={item.description}
-        //     date={item.publishedAt}
-        //     source={item.source}
-        //     image={item.urlToImage}
-        //     url={item.url}
-        //   />
-        // ))
-
         /* ****  TODO  *******
-         *   1) fix header responsiness or  create hamburger button/menu
-         *   2) fix backend to add 40 news/fetch
-         *   3) fix backend to filter news without images
+         *
          *   4) add new component XXL for width=780px, title=38px font-size
          *      and description= 18px font-size
          *   5) add Footer with :
@@ -86,20 +87,7 @@ const Headlines = () => {
             </div>
           </section>
           <section className={classes.carruselcontainer}>
-            <Carousel autoplay={true} wrapAround={true}>
-              <a href={data[18].url}>
-                <img src={data[18].urlToImage} alt={data[18].title} />
-                <h3>{data[18].title}</h3>
-              </a>
-              <a href={data[19].url}>
-                <img src={data[19].urlToImage} alt={data[19].title} />
-                <h3>{data[19].title}</h3>
-              </a>
-              <a href={data[20].url}>
-                <img src={data[20].urlToImage} alt={data[20].title} />
-                <h3>{data[20].title}</h3>
-              </a>
-            </Carousel>
+            <Carrusel images={carruselImages} />
           </section>
         </>
       )}

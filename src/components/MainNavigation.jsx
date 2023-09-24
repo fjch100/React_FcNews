@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import classes from './MainNavigation.module.css';
 import { NavLink } from 'react-router-dom';
 
@@ -54,31 +55,42 @@ const initialMenu = [
 ];
 
 export const MainNavigation = () => {
-  let menuContent = initialMenu.map((item) => (
-    <NavLink
-      key={item.id}
-      to={item.link}
-      className={({ isActive }) => (isActive ? classes.active : undefined)}
-      end
-    >
-      {item.title}
-    </NavLink>
-  ));
+  const [checkInput, setCheckInput] = useState('');
+
+  let menuContent = initialMenu.map((item) => {
+    return (
+      <div
+        onClick={() => setCheckInput('')}
+        key={item.id}
+        className={classes.divNavLink}
+      >
+        <NavLink
+          key={item.id}
+          to={item.link}
+          className={({ isActive }) => (isActive ? classes.active : undefined)}
+          end
+        >
+          {item.title}
+        </NavLink>
+      </div>
+    );
+  });
 
   return (
-    // <div className={classes.headerContainer}>
-    //   <div className={classes.logocontainer}>
-    //     <h1>FC-NEWS</h1>
-    //   </div>
-    //   <ul className={classes.headerList}>{menuContent}</ul>
-    // </div>
-
-    <div className={classes.container}>
-      <div className={classes.nav}>
-        <input type="checkbox" id="navCheck" className="navCheck" />
+    <div className={classes.MainNavigation}>
+      <nav className={classes.navMenu}>
+        <input
+          type="checkbox"
+          id="navCheck"
+          checked={checkInput}
+          className="navCheck"
+          onChange={() => setCheckInput((prevState) => !prevState)}
+        />
         <div className={classes.navHeader}>
           <div className={classes.navTitle}>FC News</div>
         </div>
+
+        <div className={classes.navLinks}>{menuContent}</div>
         <div className={classes.navBtn}>
           <label htmlFor="navCheck">
             <span></span>
@@ -86,8 +98,7 @@ export const MainNavigation = () => {
             <span></span>
           </label>
         </div>
-        <div className={classes.navLinks}>{menuContent}</div>
-      </div>
+      </nav>
     </div>
   );
 };
